@@ -1,75 +1,152 @@
-# React + TypeScript + Vite
+## Step 1 — Link to State Inventory Document
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[State Inventory](State Inventory.md)
 
-Currently, two official plugins are available:
+## Step 2 — Zustand-Based Cart Sidebar (Global UI State)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Step 2.1 — Choose Your Sidebar
 
-## React Compiler
+Chosen: Cart sidebar
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+- What opens it: A "Cart" button in the header.
+- Where it appears: Right side as an overlay.
 
-Note: This will impact Vite dev & build performances.
+### Step 2.2 — Design Your Layout/UI Store
 
-## Expanding the ESLint configuration
+- isOpen: boolean (tracks if the sidebar is open, persisted)
+- items: array of cart items (persisted)
+- addItem, updateQuantity, removeItem, getTotalItemCount functions
+- Store file location: `src/stores/cartStore.ts`
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Step 2.3 — Implement in UI
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+1. A header button in App.tsx that toggles isCartOpen state.
+2. A CartDrawer component that reads cart items from Zustand store and conditionally renders based on isCartOpen.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Deliverable:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- Short description of Store: The cartStore provides items (array of cart items), and actions like addItem(), updateQuantity(), removeItem() for managing the cart state globally.
+- Screenshot/GIF: Implemented in code; sidebar opens/closes via button click (no visual attachment here).
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Step 3 — Persist Sidebar with a Custom localStorage Hook
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Step 3.1 — Design a Custom Hook
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Hook receives:
+
+- key (e.g., "cart-drawer-open")
+- defaultValue (e.g., false)
+
+Logic:
+
+- On first load: Try localStorage.getItem(key); if missing or invalid, use defaultValue.
+- On every change: Save new value into localStorage.setItem(key, JSON.stringify(value)).
+
+Decide:
+
+- This hook runs in AppContent to manage persistence for the cart drawer open state.
+- Handles SSR/non-browser by checking typeof window !== 'undefined'.
+
+### Step 3.2 — Test Persistence
+
+- Opened sidebar, refreshed → still open.
+- Closed sidebar, refreshed → still closed.
+
+Deliverable:
+
+Short note: The useLocalStorage hook initializes state from localStorage on mount, saves changes automatically, and handles errors gracefully. Persistence tested: opening/closing the cart drawer persists across page refreshes.
+
+## Step 4 — Global Toast Store (Zustand)
+
+### Step 4.1 — Choose a Library
+
+Chosen: Zustand. Chosen because it's lightweight, easy to set up, and provides a simple API for global state management.
+
+Store file location: `src/stores/notificationStore.ts`
+
+### Step 4.2 — Design the Notification Shape
+
+Notification object includes:
+
+- id (string)
+- type ('success' | 'error' | 'info')
+- message (string)
+
+Store actions:
+
+- addNotification(notification)
+- removeNotification(id)
+
+### Step 4.3 — ToastHost Component
+
+<ToastHost> component:
+
+- Subscribes to the Zustand store
+- Renders toasts with appropriate styling for different types
+- Has close buttons to remove individual toasts
+- Mounted in App.tsx for global visibility
+
+Deliverable:
+
+- Short description: Notifications are objects with id, type, message. Store provides add/remove actions.
+- Screenshot/GIF: Implemented; toasts appear on add to cart (success) and API errors (error), with close functionality.
+
+## Step 5 — Connect Toasts to Real Events with TanStack Query
+
+### Step 5.1 — Success Toasts
+
+Scenario: Add product to cart (in ProductDetail.tsx)
+
+- On success: Show success toast with product name.
+- On error: Show error toast.
+- On success: Shows "Product added to cart!" toast with 3s timeout.
+
+Confirmed: Toast appears and closes automatically or manually.
+
+### Step 5.2 — Error Toasts
+
+Scenario: API error in Products query (e.g., network failure)
+
+On error: Shows "Failed to load products" toast with 5s timeout.
+
+Confirmed: Toast appears; query still shows its own error UI (complementary).
+
+### Step 5.2 — Error Toasts
+
+- API errors in queries/mutations trigger error toasts.
+
+## Step 6 — Theme Toggle (Zustand)
+
+### Step 6.1 — Choose a Library
+
+Chosen: Zustand. Chosen for consistency with other global state.
+
+Store file location: `src/stores/themeStore.ts`
+
+### Step 6.2 — Design the Theme Store
+
+Theme state: "light" | "dark"
+
+Actions: toggleTheme()
+
+Persisted to localStorage.
+
+### Step 6.3 — Toggle Button
+
+Added to Header component, shows Sun/Moon icon based on theme.
+
+### Step 6.4 — Apply CSS Class
+
+Applied "dark" class to document.documentElement when theme is dark.
+
+Deliverable: Theme toggle button in header, persists across sessions, applies dark mode styles.
+
+## Step 9 — Reflection (Final Deliverable)
+
+- **States in TanStack Query**: Products list and product detail - server state that needs caching and synchronization.
+- **States in Context**: None - we used Zustand instead for better performance and simplicity.
+- **States in Zustand**: Cart contents, notifications, theme - global client state that needs persistence and access across components.
+- **States in local useState**: Cart drawer open/closed, quantity in ProductDetail, current view - temporary UI state specific to components.
+- **Example where global state was clearly correct**: Cart contents - needs to be shared between ProductDetail page, Header (for count), and CartDrawer.
+- **Example where local state was intentionally NOT global**: Quantity in ProductDetail - only affects that component's UI and doesn't need to persist or be shared.
+- **Short summary**: Learned that TanStack Query excels for server state, Zustand for global client state with persistence, and local state for component-specific UI. Proper state architecture reduces bugs and improves maintainability.
