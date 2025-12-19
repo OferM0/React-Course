@@ -1,6 +1,6 @@
 ## Step 1 — Link to State Inventory Document
 
-[State Inventory](State Inventory.md)
+[State Inventory](./State%20Inventory.md)
 
 ## Step 2 — Zustand-Based Cart Sidebar (Global UI State)
 
