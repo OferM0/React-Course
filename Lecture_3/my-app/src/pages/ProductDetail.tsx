@@ -13,11 +13,7 @@ export function ProductDetailPage() {
   const { addItem } = useCartStore();
   const [quantity, setQuantity] = useState(1);
 
-  const {
-    data: product,
-    isLoading,
-    error,
-  } = useQuery({
+  const { data: product, isLoading, error } = useQuery({
     queryKey: ["product", id],
     queryFn: () => fetchProduct(Number(id)),
     enabled: !!id,
@@ -51,7 +47,8 @@ export function ProductDetailPage() {
     );
   }
 
-  if (!product) return null;
+  if (!product) 
+    return null;
 
   const handleDecrease = () => {
     if (quantity > 1) {
@@ -92,7 +89,6 @@ export function ProductDetailPage() {
       </button>
 
       <div className="grid grid-cols-2 gap-16 max-w-[1200px] mx-auto">
-        {/* Left Side - Large Image */}
         <div className="bg-gray-100 rounded-lg overflow-hidden aspect-[4/5] flex items-center justify-center p-8">
           <img
             src={product.image}
@@ -101,7 +97,6 @@ export function ProductDetailPage() {
           />
         </div>
 
-        {/* Right Side - Product Details */}
         <div className="flex flex-col justify-center">
           <h1 className="mb-4 text-gray-900">{product.title}</h1>
 
@@ -123,7 +118,6 @@ export function ProductDetailPage() {
             {product.description}
           </p>
 
-          {/* Quantity Selector */}
           <div className="mb-8">
             <label className="block mb-3 text-gray-900">Quantity</label>
             <div className="flex items-center gap-4">
@@ -148,7 +142,6 @@ export function ProductDetailPage() {
             </div>
           </div>
 
-          {/* Add to Cart Button */}
           <button
             onClick={handleAddToCart}
             className="w-full bg-gray-900 text-white py-4 px-8 rounded-md hover:bg-gray-800 transition-colors"

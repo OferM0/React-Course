@@ -1,17 +1,6 @@
-import {
-  QueryClient,
-  QueryClientProvider,
-  useIsFetching,
-} from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider, useIsFetching } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
-  useNavigate,
-  useLocation,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useNavigate, useLocation} from "react-router-dom";
 import { ProductsPage } from "./pages/Products";
 import { ProductDetailPage } from "./pages/ProductDetail";
 import { ToastHost } from "./components/ToastHost";
@@ -25,42 +14,31 @@ const queryClient = new QueryClient({
     queries: {
       staleTime: 1000 * 60 * 5, // 5 minutes
       retry: 1,
-    },
-  },
+    }
+  }
 });
 
 function GlobalFetchingIndicator() {
   const isFetching = useIsFetching();
 
-  if (!isFetching) return null;
+  if (!isFetching)
+    return null;
 
   return (
     <div className="fixed top-0 left-0 right-0 h-1 bg-gray-200 z-50">
-      <div
-        className="h-full bg-gray-900 animate-pulse"
-        style={{ width: "50%" }}
-      ></div>
+      <div className="h-full bg-gray-900 animate-pulse" style={{ width: "50%" }} />
     </div>
   );
 }
 
 function AppContent() {
-  const [isCartOpen, setIsCartOpen] = useLocalStorage(
-    "cart-drawer-open",
-    false
-  );
-  const {
-    items: cartItems,
-    updateQuantity,
-    removeItem,
-    getTotalItemCount,
-  } = useCartStore();
+  const [isCartOpen, setIsCartOpen] = useLocalStorage("cart-drawer-open", false);
+  const { items: cartItems, updateQuantity, removeItem, getTotalItemCount } = useCartStore();
 
   const navigate = useNavigate();
   const location = useLocation();
 
-  const currentView =
-    location.pathname === "/products" ? "products" : "product-detail";
+  const currentView = location.pathname === "/products" ? "products" : "product-detail";
 
   const handleNavigate = (view: "products" | "product-detail") => {
     if (view === "products") {

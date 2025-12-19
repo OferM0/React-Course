@@ -8,18 +8,14 @@ interface HeaderProps {
   onNavigate: (view: "products" | "product-detail") => void;
 }
 
-export function Header({
-  cartItemCount,
-  onCartClick,
-  currentView,
-  onNavigate,
-}: HeaderProps) {
+export function Header({  cartItemCount, onCartClick, currentView, onNavigate }: HeaderProps) {
   const { theme, toggleTheme } = useThemeStore();
+
   return (
     <header className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 z-10">
       <div className="max-w-[1440px] mx-auto px-12 py-6">
         <div className="flex items-center justify-between">
-          {/* Logo */}
+
           <button
             onClick={() => onNavigate("products")}
             className="text-2xl font-semibold text-gray-900 dark:text-white hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
@@ -28,7 +24,6 @@ export function Header({
           </button>
 
           <div className="flex items-center gap-8">
-            {/* Navigation Links */}
             <nav className="flex gap-8">
               <button
                 onClick={() => onNavigate("products")}
@@ -54,7 +49,6 @@ export function Header({
               </a>
             </nav>
 
-            {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
               className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
@@ -67,7 +61,6 @@ export function Header({
               )}
             </button>
 
-            {/* Cart Icon with Badge */}
             <button
               onClick={onCartClick}
               className="relative p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"

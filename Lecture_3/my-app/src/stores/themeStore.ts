@@ -8,7 +8,9 @@ interface ThemeStore {
 }
 
 const loadThemeFromLocalStorage = (): Theme => {
-  if (typeof window === "undefined") return "light";
+  if (typeof window === "undefined") 
+    return "light";
+  
   try {
     const item = window.localStorage.getItem("theme");
     return item === "dark" ? "dark" : "light";

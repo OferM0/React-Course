@@ -4,11 +4,7 @@ import { fetchProducts } from "../api/productsApi.ts";
 import { ProductCard } from "../components/ProductCard";
 
 export function ProductsPage() {
-  const {
-    data: products,
-    isLoading,
-    error,
-  } = useQuery({
+  const { data: products, isLoading, error } = useQuery({
     queryKey: ["products"],
     queryFn: fetchProducts,
   });
@@ -39,7 +35,6 @@ export function ProductsPage() {
     <div>
       <h1 className="mb-10 text-gray-900">All Products</h1>
 
-      {/* 4-Column Grid */}
       <div className="grid grid-cols-4 gap-8">
         {products?.map((product) => (
           <Link key={product.id} to={`/products/${product.id}`}>

@@ -18,7 +18,9 @@ interface CartStore {
 }
 
 const loadFromLocalStorage = (): CartItem[] => {
-  if (typeof window === "undefined") return [];
+  if (typeof window === "undefined")
+    return [];
+  
   try {
     const item = window.localStorage.getItem("cart-items");
     return item ? JSON.parse(item) : [];
@@ -40,6 +42,7 @@ const saveToLocalStorage = (items: CartItem[]) => {
 
 export const useCartStore = create<CartStore>((set, get) => ({
   items: loadFromLocalStorage(),
+  
   addItem: (item) =>
     set((state) => {
       const existingItem = state.items.find((i) => i.id === item.id);
@@ -54,6 +57,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
       saveToLocalStorage(newItems);
       return { items: newItems };
     }),
+
   updateQuantity: (id, quantity) =>
     set((state) => {
       const newItems = state.items
@@ -62,17 +66,20 @@ export const useCartStore = create<CartStore>((set, get) => ({
       saveToLocalStorage(newItems);
       return { items: newItems };
     }),
+
   removeItem: (id) =>
     set((state) => {
       const newItems = state.items.filter((item) => item.id !== id);
       saveToLocalStorage(newItems);
       return { items: newItems };
     }),
+
   clearCart: () =>
     set(() => {
       saveToLocalStorage([]);
       return { items: [] };
     }),
+
   getTotalItemCount: () =>
     get().items.reduce((sum, item) => sum + item.quantity, 0),
 }));

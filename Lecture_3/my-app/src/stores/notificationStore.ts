@@ -12,9 +12,7 @@ export interface Notification {
 
 interface NotificationStore {
   notifications: Notification[];
-  addNotification: (
-    notification: Omit<Notification, "id" | "timestamp">
-  ) => void;
+  addNotification: (notification: Omit<Notification, "id" | "timestamp">) => void;
   removeNotification: (id: string) => void;
   clearAll: () => void;
 }
@@ -36,7 +34,6 @@ export const useNotificationStore = create<NotificationStore>((set) => ({
       notifications: [...state.notifications, newNotification],
     }));
 
-    // Auto-remove after timeout
     if (newNotification.timeout) {
       setTimeout(() => {
         set((state) => ({

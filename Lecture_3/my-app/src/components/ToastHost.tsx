@@ -8,10 +8,7 @@ const iconMap: Record<NotificationType, React.ElementType> = {
   info: Info,
 };
 
-const colorMap: Record<
-  NotificationType,
-  { bg: string; border: string; text: string; icon: string }
-> = {
+const colorMap: Record<NotificationType,{ bg: string; border: string; text: string; icon: string }> = {
   success: {
     bg: "bg-green-50",
     border: "border-green-200",

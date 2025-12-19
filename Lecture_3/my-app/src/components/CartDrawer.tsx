@@ -9,23 +9,13 @@ interface CartDrawerProps {
   onRemoveItem: (id: number) => void;
 }
 
-export function CartDrawer({
-  isOpen,
-  onClose,
-  items,
-  onUpdateQuantity,
-  onRemoveItem,
-}: CartDrawerProps) {
-  const subtotal = items.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
+export function CartDrawer({ isOpen, onClose, items, onUpdateQuantity, onRemoveItem,}: CartDrawerProps) {
+  const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const shipping = subtotal > 0 ? 10 : 0;
   const total = subtotal + shipping;
 
   return (
     <>
-      {/* Backdrop */}
       {isOpen && (
         <div
           className="fixed inset-0 bg-black/40 z-40 transition-opacity"
@@ -33,13 +23,11 @@ export function CartDrawer({
         />
       )}
 
-      {/* Drawer */}
       <div
         className={`fixed top-0 right-0 h-full w-[480px] bg-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out flex flex-col ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <h2 className="text-gray-900">Shopping Cart</h2>
           <button
@@ -51,7 +39,6 @@ export function CartDrawer({
           </button>
         </div>
 
-        {/* Cart Items - Scrollable */}
         <div className="flex-1 overflow-y-auto p-6">
           {items.length === 0 ? (
             <div className="text-center text-gray-500 mt-12">
@@ -61,7 +48,6 @@ export function CartDrawer({
             <div className="space-y-6">
               {items.map((item) => (
                 <div key={item.id} className="flex gap-4">
-                  {/* Thumbnail */}
                   <div className="w-24 h-24 bg-gray-100 rounded-md overflow-hidden flex-shrink-0">
                     <img
                       src={item.imageUrl}
@@ -70,14 +56,12 @@ export function CartDrawer({
                     />
                   </div>
 
-                  {/* Item Details */}
                   <div className="flex-1 flex flex-col">
                     <h3 className="text-gray-900 mb-1">{item.name}</h3>
                     <p className="text-gray-700 mb-3">
                       ${item.price.toFixed(2)}
                     </p>
 
-                    {/* Quantity Controls */}
                     <div className="flex items-center gap-3 mt-auto">
                       <button
                         onClick={() =>
@@ -106,7 +90,6 @@ export function CartDrawer({
                     </div>
                   </div>
 
-                  {/* Remove Button */}
                   <button
                     onClick={() => onRemoveItem(item.id)}
                     className="p-2 hover:bg-gray-100 rounded-md transition-colors self-start"
@@ -120,10 +103,8 @@ export function CartDrawer({
           )}
         </div>
 
-        {/* Fixed Bottom - Price Summary */}
         {items.length > 0 && (
           <div className="border-t border-gray-200 p-6 space-y-4">
-            {/* Price Breakdown */}
             <div className="space-y-2">
               <div className="flex justify-between text-gray-700">
                 <span>Subtotal</span>
@@ -139,7 +120,6 @@ export function CartDrawer({
               </div>
             </div>
 
-            {/* Place Order Button */}
             <button
               className="w-full bg-gray-900 text-white py-4 px-8 rounded-md hover:bg-gray-800 transition-colors"
               onClick={() => alert("Order placed!")}
