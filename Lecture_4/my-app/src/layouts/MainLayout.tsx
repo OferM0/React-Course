@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate, useNavigate, useLocation } from "react-router-dom";
 import { Header, CartDrawer, GlobalFetchingIndicator, ToastHost } from "../components";
-import { ProductsPage, ProductDetailPage } from "../pages";
+import { ProductDetailPage, ProductsTablePage } from "../pages";
 import { useCartStore } from "../stores";
 import useLocalStorage from "../hooks/useLocalStorage";
 
@@ -27,7 +27,7 @@ export function AppRouter() {
       <main className="max-w-[1440px] mx-auto px-12 py-12">
         <Routes>
           <Route path="/" element={<Navigate to="/products" replace />} />
-          <Route path="/products" element={<ProductsPage />} />
+          <Route path="/products" element={<ProductsTablePage />} />
           <Route path="/products/:id" element={<ProductDetailPage />} />
         </Routes>
       </main>

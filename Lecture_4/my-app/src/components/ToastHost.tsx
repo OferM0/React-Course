@@ -1,5 +1,6 @@
 import { type NotificationType, useNotificationStore } from "../stores";
 import { CircleCheck, CircleAlert, Info, X } from "lucide-react";
+import { useTranslation } from 'react-i18next'; 
 
 const iconMap: Record<NotificationType, React.ElementType> = {
   success: CircleCheck,
@@ -30,9 +31,15 @@ const colorMap: Record<NotificationType,{ bg: string; border: string; text: stri
 
 export function ToastHost() {
   const { notifications, removeNotification } = useNotificationStore();
+  const { i18n } = useTranslation();
+  const isRtl = i18n.language === 'he';
 
   return (
-    <div className="fixed top-4 right-4 z-50 flex flex-col gap-3 w-96">
+    <div 
+      className={`fixed top-4 z-50 flex flex-col gap-3 w-96 transition-all duration-300 ${
+        isRtl ? 'left-4' : 'right-4'
+      }`}
+    >
       {notifications.map((notification) => {
         const Icon = iconMap[notification.type];
         const colors = colorMap[notification.type];
@@ -40,7 +47,11 @@ export function ToastHost() {
         return (
           <div
             key={notification.id}
-            className={`${colors.bg} ${colors.border} border rounded-lg shadow-lg p-4 flex items-start gap-3 animate-in slide-in-from-right duration-300`}
+            className={`
+              ${colors.bg} ${colors.border} border rounded-lg shadow-lg p-4 flex items-start gap-3 
+              animate-in duration-300 
+              ${isRtl ? 'slide-in-from-left' : 'slide-in-from-right'} // Flip animation
+            `}
           >
             <Icon className={`w-5 h-5 ${colors.icon} flex-shrink-0 mt-0.5`} />
             <p className={`flex-1 ${colors.text}`}>{notification.message}</p>

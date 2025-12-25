@@ -1,0 +1,20 @@
+{
+  "list": {
+    "title": "All Products",
+    "loading": "Loading products...",
+    "error": "Failed to load products"
+  },
+  "detail": {
+    "loading": "Loading product details...",
+    "error": "Failed to load product",
+    "back": "Back to Products",
+    "categoryLabel": "<bold>Category:</bold> {{category}}",
+    "quantity": "Quantity",
+    "addToCart": "Add to Cart",
+    "reviews_one": "{{count}} review",
+    "reviews_other": "{{count}} reviews"
+  },
+  "notifications": {
+    "added": "{{name}} added to cart successfully!"
+  }
+}

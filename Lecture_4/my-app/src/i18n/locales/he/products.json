@@ -1,0 +1,20 @@
+{
+  "list": {
+    "title": "כל המוצרים",
+    "loading": "טוען מוצרים...",
+    "error": "שגיאה בטעינת המוצרים"
+  },
+  "detail": {
+    "loading": "טוען פרטי מוצר...",
+    "error": "שגיאה בטעינת המוצר",
+    "back": "חזרה למוצרים",
+    "categoryLabel": "<bold>קטגוריה:</bold> {{category}}",
+    "quantity": "כמות",
+    "addToCart": "הוסף לסל",
+    "reviews_one": "ביקורת אחת",
+    "reviews_other": "{{count}} ביקורות"
+  },
+  "notifications": {
+    "added": "{{name}} נוסף לסל בהצלחה!"
+  }
+}
