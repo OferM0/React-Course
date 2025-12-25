@@ -1,6 +1,5 @@
-import { useNotificationStore } from "../stores/notificationStore.ts";
+import { type NotificationType, useNotificationStore } from "../stores";
 import { CircleCheck, CircleAlert, Info, X } from "lucide-react";
-import type { NotificationType } from "../stores/notificationStore.ts";
 
 const iconMap: Record<NotificationType, React.ElementType> = {
   success: CircleCheck,

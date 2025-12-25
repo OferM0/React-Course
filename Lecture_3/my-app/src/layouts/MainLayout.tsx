@@ -1,11 +1,7 @@
 import { Routes, Route, Navigate, useNavigate, useLocation } from "react-router-dom";
-import { ProductsPage } from "../pages/Products";
-import { ProductDetailPage } from "../pages/ProductDetail";
-import { Header } from "../components/Header";
-import { CartDrawer } from "../components/CartDrawer";
-import { GlobalFetchingIndicator } from "../components/GlobalFetchingIndicator";
-import { ToastHost } from "../components/ToastHost";
-import { useCartStore } from "../stores/cartStore";
+import { Header, CartDrawer, GlobalFetchingIndicator, ToastHost } from "../components";
+import { ProductsPage, ProductDetailPage } from "../pages";
+import { useCartStore } from "../stores";
 import useLocalStorage from "../hooks/useLocalStorage";
 
 export function AppRouter() {

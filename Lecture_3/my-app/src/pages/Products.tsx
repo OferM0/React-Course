@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { fetchProducts } from "../api/productsApi.ts";
-import { ProductCard } from "../components/ProductCard";
+import { ProductCard } from "../components";
 
 export function ProductsPage() {
   const { data: products, isLoading, error } = useQuery({

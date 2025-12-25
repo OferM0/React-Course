@@ -1,5 +1,5 @@
 import { ShoppingCart, Sun, Moon } from "lucide-react";
-import { useThemeStore } from "../stores/themeStore";
+import { useThemeStore } from "../stores";
 
 interface HeaderProps {
   cartItemCount: number;

@@ -3,8 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { fetchProduct } from "../api/productsApi.ts";
 import { Minus, Plus, ArrowLeft } from "lucide-react";
 import { useState } from "react";
-import { useNotificationStore } from "../stores/notificationStore.ts";
-import { useCartStore } from "../stores/cartStore";
+import { useCartStore, useNotificationStore } from "../stores";
 
 export function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
