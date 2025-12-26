@@ -7,6 +7,9 @@
 - **Namespaces:** - `common`: Generic UI elements (Cart, Home, Loading)
   - `products`: Catalog titles, product details, and item counts.
 - **Features:** Implemented pluralization for item counts and language detection.
+- **Screenshots:**
+![English UI Screenshot](./screenshots/step1_hebrew.png)
+![English UI Screenshot](./screenshots/step1_english.png)
 
 ## Step 2 - Use i18n for real
 
@@ -35,9 +38,15 @@ Visible UI strings have been translated across the Header, Products List, and Pr
 - **Persistence:** - On change: Saves the new language string to `localStorage` under the key `app-language`.
   - On load: `i18n/config.ts` reads from `localStorage` to set the initial `lng` value.
 - **Default:** If `localStorage` is empty, the system defaults to `en`.
+- **Screenshots:**
+![English UI Screenshot](./screenshots/step3_languagesSwitch.gif)
 
 ## Step 4 - RTL Mode (Hebrew)
 The application dynamically adjusts its layout to support Hebrew as a Right-to-Left (RTL) language.
+
+- **Screenshots:**
+![English UI Screenshot](./screenshots/step4.png)
+![English UI Screenshot](./screenshots/step4_RTL.png)
 
 ### RTL Issue Fixes:
 * **Document Direction:** A `useEffect` in the `Header` component synchronizes the current language with `document.documentElement.dir`. Setting this to `"rtl"` automatically mirrors the Flexbox grid and text alignment.
@@ -75,6 +84,9 @@ The DataTable automatically inherits the `dir="rtl"` attribute from the document
 - Paginator controls (arrows) are correctly oriented for Hebrew.
 - Text alignment within cells follows the locale's natural flow.
 
+- **Screenshots:**
+![English UI Screenshot](./screenshots/step5_dataTable.png)
+
 ## Step 6 - PrimeReact Theme Switch & Persistence
 
 The application supports dynamic theme switching that affects all PrimeReact components (DataTable, Inputs, Buttons) as well as the custom Tailwind UI.
@@ -86,3 +98,7 @@ The application supports dynamic theme switching that affects all PrimeReact com
 ### Persistence & Restoration:
 - **LocalStorage Key:** `primereact-theme-name`
 - **Logic:** The `Header` component uses a custom `useLocalStorage` hook to track the theme name. On mount, a `useEffect` identifies the `<link>` tag with the ID `primereact-theme` and updates its `href` attribute to point to the correct CSS file path. This ensures the theme remains consistent even after a page refresh.
+ 
+- **Screenshots:**
+![English UI Screenshot](./screenshots/step6_themeA.png)
+![English UI Screenshot](./screenshots/step6_themeB.png)
