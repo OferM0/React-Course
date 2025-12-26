@@ -1,0 +1,23 @@
+{
+  "logo": "ONLINE STORE",
+  "nav": {
+    "shop": "Shop",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "cart": {
+    "title": "Shopping Cart",
+    "empty": "Your cart is empty",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "total": "Total",
+    "placeOrder": "Place Order",
+    "orderAlert": "Order placed!",
+    "aria": {
+      "close": "Close cart",
+      "remove": "Remove item",
+      "increase": "Increase quantity",
+      "decrease": "Decrease quantity"
+    }
+  }
+}

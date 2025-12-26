@@ -4,6 +4,8 @@ import { fetchProduct } from "../api/productsApi.ts";
 import { Minus, Plus, ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import { useCartStore, useNotificationStore } from "../stores";
+import { useTranslation, Trans } from 'react-i18next';
+import i18n from "../i18n/config.ts";
 
 export function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -18,12 +20,14 @@ export function ProductDetailPage() {
     enabled: !!id,
   });
 
+  const { t } = useTranslation(['products', 'common']);
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
           <div className="animate-spin w-12 h-12 border-4 border-gray-200 border-t-gray-900 rounded-full mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading product details...</p>
+          <p className="text-gray-600">{t('products:detail.loading')}</p>
         </div>
       </div>
     );
@@ -33,19 +37,19 @@ export function ProductDetailPage() {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
-          <p className="text-red-600 mb-2">Failed to load product</p>
+          <p className="text-red-600 mb-2">{t('products:detail.error')}</p>
           <p className="text-gray-600 text-sm">{(error as Error).message}</p>
           <button
             onClick={() => navigate("/products")}
             className="mt-4 text-gray-900 hover:underline"
           >
-            Back to products
+           {t('products:detail.back')}
           </button>
         </div>
       </div>
     );
   }
-
+  
   if (!product) 
     return null;
 
@@ -71,7 +75,7 @@ export function ProductDetailPage() {
       }
       addNotification({
         type: "success",
-        message: `${product.title} added to cart successfully!`,
+        message: t('products:notifications.added', { name: product.title }),
       });
       setQuantity(1);
     }
@@ -83,8 +87,8 @@ export function ProductDetailPage() {
         onClick={() => navigate("/products")}
         className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-8 transition-colors"
       >
-        <ArrowLeft className="w-4 h-4" />
-        Back to Products
+        <ArrowLeft className={`w-4 h-4 ${i18n.language === 'he' ? 'rotate-180' : ''}`} />
+        {t('products:detail.back')}
       </button>
 
       <div className="grid grid-cols-2 gap-16 max-w-[1200px] mx-auto">
@@ -106,19 +110,22 @@ export function ProductDetailPage() {
           <div className="flex items-center gap-2 mb-6 text-sm text-gray-600">
             <span>⭐ {product.rating.rate.toFixed(1)}</span>
             <span>·</span>
-            <span>{product.rating.count} reviews</span>
+            <span>{t('products:detail.reviews', { count: product.rating.count })}</span> 
           </div>
 
           <p className="text-gray-600 mb-4 capitalize">
-            <span className="font-semibold">Category:</span> {product.category}
+            <Trans 
+              i18nKey="products:detail.categoryLabel" 
+              values={{ category: product.category }}
+              components={{ bold: <span className="font-semibold" /> }}
+            />
           </p>
-
           <p className="text-gray-600 mb-8 leading-relaxed">
             {product.description}
           </p>
 
           <div className="mb-8">
-            <label className="block mb-3 text-gray-900">Quantity</label>
+            <label className="block mb-3 text-gray-900">{t('products:detail.quantity')}</label>
             <div className="flex items-center gap-4">
               <button
                 onClick={handleDecrease}
@@ -145,7 +152,7 @@ export function ProductDetailPage() {
             onClick={handleAddToCart}
             className="w-full bg-gray-900 text-white py-4 px-8 rounded-md hover:bg-gray-800 transition-colors"
           >
-            Add to Cart
+            {t('products:detail.addToCart')}
           </button>
         </div>
       </div>
